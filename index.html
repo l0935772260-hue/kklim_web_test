@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>今天吃什麼？抽籤器</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Sans TC", sans-serif;
+      background: linear-gradient(135deg, #fff3df, #ffe0d2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: white;
+      padding: 35px 28px;
+      border-radius: 24px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #e87542;
+      margin-bottom: 10px;
+      font-size: 30px;
+    }
+
+    .subtitle {
+      color: #888;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    textarea {
+      width: 100%;
+      height: 160px;
+      padding: 15px;
+      border: 2px solid #f2d6c4;
+      border-radius: 12px;
+      font-size: 16px;
+      line-height: 1.8;
+      resize: vertical;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    textarea:focus {
+      border-color: #ed9466;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #ed8653;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #d96b3a;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .result-box {
+      margin-top: 25px;
+      padding: 25px 15px;
+      background: #fff5eb;
+      border: 2px dashed #f0b28d;
+      border-radius: 16px;
+      min-height: 125px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .result-title {
+      color: #999;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    #result {
+      font-size: 32px;
+      font-weight: bold;
+      color: #e87542;
+      word-break: break-word;
+    }
+
+    #message {
+      margin-top: 12px;
+      color: #d9534f;
+      font-size: 14px;
+      min-height: 20px;
+    }
+
+    .hint {
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>🍱 今天吃什麼？</h1>
+
+    <p class="subtitle">
+      選擇困難嗎？讓命運幫你決定！
+    </p>
+
+    <label for="options">
+      📝 輸入想吃的食物（每行一個）
+    </label>
+
+    <textarea id="options">便當
+麵
+咖哩
+水餃</textarea>
+
+    <button id="drawButton" onclick="drawFood()">
+      🎲 幫我選！
+    </button>
+
+    <div class="result-box">
+      <div class="result-title">✨ 今日幸運美食 ✨</div>
+      <div id="result">等你來抽籤！</div>
+    </div>
+
+    <div id="message"></div>
+
+    <p class="hint">
+      小提醒：空白項目及重複選項會自動排除。
+    </p>
+
+  </div>
+
+  <script>
+    function drawFood() {
+
+      // 取得輸入內容
+      const input = document.getElementById("options").value;
+
+      // 清除空白行、前後空白及重複選項
+      const foodList = [...new Set(
+        input
+          .split("\n")
+          .map(item => item.trim())
+          .filter(item => item !== "")
+      )];
+
+      const result = document.getElementById("result");
+      const message = document.getElementById("message");
+
+      // 檢查清單是否為空
+      if (foodList.length === 0) {
+        result.textContent = "🤔";
+        message.textContent = "請先輸入至少一個選項";
+        return;
+      }
+
+      // 隨機抽出一個選項
+      const randomIndex = Math.floor(
+        Math.random() * foodList.length
+      );
+
+      const selectedFood = foodList[randomIndex];
+
+      // 顯示抽籤結果
+      result.textContent = "🎉 " + selectedFood;
+      message.textContent =
+        "從 " + foodList.length + " 個有效選項中選出！";
+    }
+  </script>
+
+</body>
+</html>
+
